@@ -16,6 +16,7 @@ type Destination struct {
 	Image3           string          `json:"image3" gorm:"not null"`
 	Image4           string          `json:"image4" gorm:"not null"`
 	Price            int             `json:"price" gorm:"not null"`
+	AverageRating    decimal.Decimal `json:"average_rating" gorm:"type:decimal(10,3)"`
 	AssessmentResult decimal.Decimal `json:"assessment_result" gorm:"type:decimal(10,3)"`
 	Address          string          `json:"address" gorm:"not null"`
 	Location         string          `json:"location" gorm:"not null"`

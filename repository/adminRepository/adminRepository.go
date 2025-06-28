@@ -15,8 +15,12 @@ type AdminRepository interface {
 	RegisterAdmin(payload adminDto.RegisterDTO) error
 	LoginAdmin(payloads adminDto.LoginDTO) (model.User, error)
 
+	// TODO Profile Admin
+	GetProfileAdmin(userId uint) (adminDto.ProfileDTO, error)
+
 	// TODO Destination Admin
 	GetAllDestination() ([]adminDto.DestinationResponseDTO, error)
+	GetDestinationById(id int) (adminDto.DestinationResponseDTO, error)
 }
 
 type adminRepository struct {
@@ -39,7 +43,7 @@ func (u *adminRepository) RegisterAdmin(payloads adminDto.RegisterDTO) error {
 			Password: payloads.Password, // hash dulu ya
 			Email:    payloads.Email,
 			Phone:    payloads.Phone,
-			Role:     1,
+			Role:     payloads.Role,
 		}
 		if err := tx.Create(&user).Error; err != nil {
 			_ = utils.DeleteFromCloudinary(payloads.Idphoto)

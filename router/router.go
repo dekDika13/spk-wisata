@@ -2,9 +2,12 @@ package router
 
 import (
 	"backend/controller/adminController"
+	tourisController "backend/controller/tourisController"
 	m "backend/middleware"
 	"backend/repository/adminRepository"
+	tourisRepository "backend/repository/tourisRepository"
 	"backend/service/adminService"
+	tourisService "backend/service/tourisService"
 	"backend/utils"
 	"os"
 
@@ -21,12 +24,15 @@ func New(e *echo.Echo, db *gorm.DB) {
 
 	// TODO REPOSITORY
 	adminRepository := adminRepository.NewAdminRepository(db)
+	tourisRepository := tourisRepository.NewTourisRepository(db)
 
 	// TODO SERVICE
 	adminService := adminService.NewAdminService(adminRepository)
+	tourisService := tourisService.NewTourisService(tourisRepository)
 
 	// TODO CONTROLLER
 	adminController := adminController.NewAdminController(adminService)
+	touriscontroller := tourisController.NewAdminController(tourisService)
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(200, "ping")
@@ -43,32 +49,29 @@ func New(e *echo.Echo, db *gorm.DB) {
 
 	// TODO ADMIN ROUTE
 	// TODO AUTH
-	v1_reg := v1.Group("/reg")
-	v1_reg.POST("/register", adminController.RegisterAdmin)
-	e.POST("/auth/login", adminController.LoginAdmin)
+
+	// TODO PROFILE. Admin
+	v1_profile := v1.Group("/profile")
+	v1_profile.GET("/", adminController.GetProfileAdmin)
+	// TODO PROFILE Touris
+	v2_profile := v2.Group("/profile")
+	v2_profile.GET("/", touriscontroller.GetProfileTouris)
+
 	// TODO CRUD Destination
-	v1_dest := v1.Group("/destination")
-	v1_dest.GET("/all", adminController.GetAllDestination)
-	// v1_dest.GET("/by-id/", adminController.GetDestinationById)
-	// v1_dest.POST("/create", adminController.CreateDestination)
-	// v1_dest.PUT("/update/", adminController.UpdateDestination)
-	// v1_dest.DELETE("/delete/", adminController.DeleteDestination)
+	// v1_dest := v1.Group("/destination")
+	// v2_dest := v2.Group("/destination")
 
-	//TODO CRUD CRITERIA
-	// v1_crit := v1.Group("/criteria")
-	// v1_crit.GET("/all", adminController.GetCriteriaAll)
-	// v1_crit.GET("/by-id/", adminController.GetCriteriaById)
-	// v1_crit.POST("/create", adminController.CreateCriteria)
-	// v1_crit.PUT("/update/", adminController.UpdateCriteria)
-	// v1_crit.DELETE("/delete/", adminController.DeleteCriteria)
+	// TODO FOR ALL
+	e.POST("/auth/register", adminController.Register)
+	e.POST("/auth/login", adminController.LoginAdmin)
+	e.GET("/destination", adminController.GetAllDestination)
+	e.GET("/destination/id", adminController.GetDestinationById)
 
-	// TODO DETAIL Criteria
-	// v1_crit_det := v1_crit.Group("/detail")
-	// v1_crit_det.GET("/all", adminController.GetCriteriaDetailAll)
-	// v1_crit_det.GET("/by-id/", adminController.GetCriteriaDetailById)
 
-	// TODO DETAIL Review
-	// v1_rev_det := v1.Group("/review/detail")
-	// v1_rev_det.GET("/all", adminController.GetReviewDetailAll)
-	// v1_rev_det.GET("/by-id/", adminController.GetReviewDetailById)
+	// TODO FOR TOURIS
+	v2.GET("/review", touriscontroller.GetAllReviewTouris)
+	v2.POST("/review", touriscontroller.CreateReviewTouris)
+	v2.PUT("/review", touriscontroller.UpdateReviewTouris)
+	v2.DELETE("/review", touriscontroller.DeleteReviewTouris)
+
 }

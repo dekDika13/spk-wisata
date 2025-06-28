@@ -18,6 +18,10 @@ type AdminService interface {
 
 	// TODO Destination Admin
 	GetAllDestination() ([]adminDto.DestinationResponseDTO, error)
+	GetDestinationById(id int) (adminDto.DestinationResponseDTO, error)
+
+	// TODO Profile Admin
+	GetProfileAdmin(userId uint) (adminDto.ProfileDTO, error)
 }
 type adminService struct {
 	adminRepository adminRepository.AdminRepository

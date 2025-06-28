@@ -11,9 +11,9 @@ import (
 	"github.com/labstack/echo"
 )
 
-func CreateToken(adminID uint, role uint, username string) (string, error) {
+func CreateToken(userID uint, role uint, username string) (string, error) {
 	claims := jwt.MapClaims{}
-	claims["adminID"] = adminID
+	claims["userID"] = userID
 	claims["role"] = role
 	claims["username"] = username
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()

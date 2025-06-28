@@ -21,11 +21,11 @@ func NewAdminController(adminService adminService.AdminService) *adminController
 }
 
 // TODO REGISTER ADMIN
-func (u *adminController) RegisterAdmin(c echo.Context) error {
+func (u *adminController) Register(c echo.Context) error {
 	var payloads adminDto.RegisterInsertDTO
 
 	// Ambil manual semua field form
-	payloads.Role = utils.ParseUint(c.FormValue("role"))
+	payloads.Role = 2
 	payloads.Username = c.FormValue("username")
 	payloads.Password = c.FormValue("password")
 	payloads.Email = c.FormValue("email")

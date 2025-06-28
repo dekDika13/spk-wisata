@@ -23,6 +23,7 @@ type DestinationResponseDTO struct {
 	Image3           string          `json:"image3"`
 	Image4           string          `json:"image4"`
 	Price            int             `json:"price"`
+	AverageRating    decimal.Decimal `json:"average_rating"`
 	AssessmentResult decimal.Decimal `json:"assessment_result"`
 	Address          string          `json:"address"`
 	Location         string          `json:"location"`
