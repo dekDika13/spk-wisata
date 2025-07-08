@@ -11,3 +11,5 @@ type Profile struct {
 	Bod       time.Time `json:"bod" gorm:"not null;type:date"`
 	Address   string    `json:"address" gorm:"not null"`
 }
+
+

@@ -57,8 +57,13 @@ func New(e *echo.Echo, db *gorm.DB) {
 	v2_profile := v2.Group("/profile")
 	v2_profile.GET("/", touriscontroller.GetProfileTouris)
 
+
+
 	// TODO CRUD Destination
-	// v1_dest := v1.Group("/destination")
+	v1_dest := v1.Group("/destination")
+	v1_dest.POST("/", adminController.CreateDestination)
+	v1_dest.PUT("/", adminController.UpdateDestination)
+	v1_dest.DELETE("/", adminController.DeleteDestination)
 	// v2_dest := v2.Group("/destination")
 
 	// TODO FOR ALL

@@ -21,6 +21,9 @@ type AdminRepository interface {
 	// TODO Destination Admin
 	GetAllDestination() ([]adminDto.DestinationResponseDTO, error)
 	GetDestinationById(id int) (adminDto.DestinationResponseDTO, error)
+	CreateDestination(payload adminDto.DestinationCreateDTO) error
+	UpdateDestination(id int, payload adminDto.DestinationUpdateDTO) error
+	DeleteDestination(id int) error
 }
 
 type adminRepository struct {
