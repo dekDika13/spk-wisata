@@ -61,9 +61,10 @@ func New(e *echo.Echo, db *gorm.DB) {
 
 	// TODO CRUD Destination
 	v1_dest := v1.Group("/destination")
-	v1_dest.POST("/", adminController.CreateDestination)
-	v1_dest.PUT("/", adminController.UpdateDestination)
+	// v1_dest.POST("/", adminController.CreateDestination)
+	// v1_dest.PUT("/", adminController.UpdateDestination)
 	v1_dest.DELETE("/", adminController.DeleteDestination)
+	v1_dest.POST("/", adminController.CreateDestination)
 	// v2_dest := v2.Group("/destination")
 
 	// TODO FOR ALL

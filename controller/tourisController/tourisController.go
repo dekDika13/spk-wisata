@@ -3,6 +3,7 @@ package touriscontroller
 import (
 	"backend/middleware"
 	tourisService "backend/service/tourisService"
+	tourisDto "backend/dto/tourisDto"
 	"backend/utils"
 	"net/http"
 
@@ -62,26 +63,34 @@ func (u *tourisController) GetAllReviewTouris(c echo.Context) error {
 }
 
 func (u *tourisController) CreateReviewTouris(c echo.Context) error {
-	id := c.FormValue("review_id")
-	reviewId := utils.ParseUint(id)
-	if reviewId != 0 {
+	userId, _ := middleware.ClaimData(c, "userID")
+	conv_userId := userId.(float64)
+	conv := uint(conv_userId)
+	var payloads tourisDto.CreateReviewDTO
+	if err := c.Bind(&payloads); err != nil {
 		return c.JSON(http.StatusBadRequest, utils.Response{
-			Message: "Invalid review_id",
+			Message: "Invalid input",
 			Code:    http.StatusBadRequest,
 		})
 	}
-
-	if err := u.tourisServ.CreateReviewTouris(reviewId); err != nil {
+	payloads.UserId = conv
+	if err := c.Validate(payloads); err != nil {
+		return c.JSON(http.StatusBadRequest, utils.Response{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+		})
+	}
+	if err := u.tourisServ.CreateReviewTouris(payloads); err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.Response{
 			Message: err.Error(),
 			Code:    http.StatusInternalServerError,
 		})
 	}
-
 	return c.JSON(http.StatusOK, utils.Response{
 		Message: "Review created successfully",
 		Code:    http.StatusOK,
 	})
+
 }
 
 func (u *tourisController) UpdateReviewTouris(c echo.Context) error {

@@ -13,7 +13,7 @@ type TourisRepository interface {
 	// TODO Profile Admin
 	GetProfileTouris(userId uint) (adminDto.ProfileDTO, error)
 	GetAllReviewTouris(userId uint) ([]tourisDto.ReviewResponseDTO, error)
-	CreateReviewTouris(reviewId uint ) error
+	CreateReviewTouris(payloads tourisDto.CreateReviewDTO ) error
 	UpdateReviewTouris(reviewId uint) error
 	DeleteReviewTouris(reviewId uint) error
 }
@@ -44,9 +44,7 @@ func (u *tourisRepository) GetAllReviewTouris(userId uint) ([]tourisDto.ReviewRe
 	var reviews []tourisDto.ReviewResponseDTO
 
 	if err := u.db.Model(&model.Review{}).
-		Select("reviews.review_id, reviews.user_id, reviews.destination_id, reviews.rating, reviews.review_detail, reviews.created_at, destinations.image1, destinations.name").
-		Joins("JOIN users ON users.user_id = reviews.user_id").
-		Joins("JOIN destinations ON destinations.destination_id = reviews.destination_id").
+		Select("*").
 		Where("reviews.user_id = ?", userId).
 		Find(&reviews).Error; err != nil {
 		return nil, err
@@ -55,12 +53,20 @@ func (u *tourisRepository) GetAllReviewTouris(userId uint) ([]tourisDto.ReviewRe
 	return reviews, nil
 }
 
-func (u *tourisRepository) CreateReviewTouris(reviewId uint) error {
-	if err := u.db.Model(&model.Review{}).
-		Where("review_id = ?", reviewId).
-		Update("is_active", true).Error; err != nil {
-		return err
+func (u *tourisRepository) CreateReviewTouris(payloads tourisDto.CreateReviewDTO) error {
+	review := &model.Review{
+		DestinationId: payloads.DestinationId,
+		UserId:        payloads.UserId,
+		ReviewDetail:  payloads.ReviewDetail,
+		RatingC1:      payloads.RatingC1,
+		RatingC2:      payloads.RatingC2,
+		RatingC4:      payloads.RatingC4,
+		RatingC6:      payloads.RatingC6,
+		RatingC7:      payloads.RatingC7,
 	}
+	if err := u.db.Create(review).Error; err != nil {			
+		return err
+	}					
 
 	return nil
 }

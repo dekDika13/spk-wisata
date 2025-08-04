@@ -19,8 +19,8 @@ type AdminService interface {
 	// TODO Destination Admin
 	GetAllDestination() ([]adminDto.DestinationResponseDTO, error)
 	GetDestinationById(id int) (adminDto.DestinationResponseDTO, error)
-	CreateDestination(payload adminDto.DestinationCreateDTO) error
-	UpdateDestination(id int, payload adminDto.DestinationUpdateDTO) error
+	CreateDestination(payload adminDto.DestinationCreateDTO, urls adminDto.DestinationImageDTO) error
+	// UpdateDestination(id int, payload adminDto.DestinationUpdateDTO) error
 	DeleteDestination(id int) error
 
 	// TODO Profile Admin
@@ -47,7 +47,7 @@ func (s *adminService) RegisterAdmin(payloads adminDto.RegisterInsertDTO) error 
 			return err // failed to open file
 		}
 		defer file.Close()
-		url,id, err := utils.UploadToCloudinary(file, filename)
+		url, id, err := utils.UploadToCloudinary(file, filename)
 		if err != nil {
 			return err // bisa log juga
 		}
@@ -64,7 +64,7 @@ func (s *adminService) RegisterAdmin(payloads adminDto.RegisterInsertDTO) error 
 		Photo:    photoURL,
 		Bod:      payloads.Bod,
 		Address:  payloads.Address,
-		Idphoto: idphoto,
+		Idphoto:  idphoto,
 	}
 
 	pw, err := utils.HashBcrypt(pas.Password)

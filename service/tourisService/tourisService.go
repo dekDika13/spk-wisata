@@ -11,7 +11,7 @@ type TourisService interface {
 	// TODO Profile Admin
 	GetProfileTouris(userId uint) (adminDto.ProfileDTO, error)
 	GetAllReviewTouris(userId uint) ([]tourisDto.ReviewResponseDTO, error)
-	CreateReviewTouris(reviewId uint) error
+	CreateReviewTouris( payloads tourisDto.CreateReviewDTO) error
 	UpdateReviewTouris(reviewId uint) error
 	DeleteReviewTouris(reviewId uint) error
 }
@@ -42,8 +42,8 @@ func (s *tourisService) GetAllReviewTouris(userId uint) ([]tourisDto.ReviewRespo
 	return reviews, nil
 }
 
-func (s *tourisService) CreateReviewTouris(reviewId uint) error {
-	if err := s.tourisRepository.CreateReviewTouris(reviewId); err != nil {
+func (s *tourisService) CreateReviewTouris( payloads tourisDto.CreateReviewDTO) error {
+	if err := s.tourisRepository.CreateReviewTouris(payloads); err != nil {
 		return err
 	}
 	return nil

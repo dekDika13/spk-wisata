@@ -47,12 +47,12 @@ func InitDB() {
 func InitMigrate() {
 	// Migrate models
 	_ = DB.AutoMigrate(
-		
+
 		&model.User{},
-		&model.Criteria{},
 		&model.Destination{},
 		&model.Review{},
-		&model.DetailCriteria{},
+		&model.Gallery{},
+		&model.Image{},
 		&model.Profile{},
 	)
 }

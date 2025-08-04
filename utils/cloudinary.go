@@ -28,6 +28,7 @@ func UploadToCloudinary(file multipart.File, fileName string) (string, string, e
     if err != nil {
         return "", "", err
     }
+    
 
     return uploadResult.SecureURL, uploadResult.PublicID, nil
 }

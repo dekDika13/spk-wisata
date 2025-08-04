@@ -11,43 +11,32 @@ type DestinationCreateDTO struct {
 	Description string                  `form:"description" validate:"required"`
 	Cover       *multipart.FileHeader   `form:"cover"`
 	Images      []*multipart.FileHeader `form:"images"`
+	Toilet      int                     `form:"toilet" validate:"required"`
+	Parking     int                     `form:"parking" validate:"required"`
+	Restarea    int                     `form:"restarea" validate:"required"`
+	Restaurant  int                     `form:"restaurant" validate:"required"`
 	Price       int                     `form:"price" validate:"required"`
 	Address     string                  `form:"address" validate:"required"`
 	Location    string                  `form:"location" validate:"required"`
 }
-type DestinationInsertDTO struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-
-	Image1   [3]*multipart.FileHeader `form:"image1"`
-	Price    int                      `json:"price"`
-	Address  string                   `json:"address"`
-	Location string                   `json:"location"`
+type DestinationImageDTO struct {
+	CoverUrl    string   `json:"cover_url"`
+	ImageUrl []string `json:"image_url"`
 }
 
 type DestinationResponseDTO struct {
 	DestinationId    uint            `json:"destination_id"`
 	Name             string          `json:"name"`
 	Description      string          `json:"description"`
-	Image1           string          `json:"image1"`
-	Image2           string          `json:"image2"`
-	Image3           string          `json:"image3"`
-	Image4           string          `json:"image4"`
+	Cover            string          `json:"cover"`
+	Galery           []string        `json:"gallery"`
+	Toilet           int             `json:"toilet"`
+	Parking          int             `json:"parking"`
+	Restarea         int             `json:"restarea"`
+	Restaurant       int             `json:"restaurant"`
 	Price            int             `json:"price"`
-	AverageRating    decimal.Decimal `json:"average_rating"`
+	Rating           decimal.Decimal `json:"rating"`
 	AssessmentResult decimal.Decimal `json:"assessment_result"`
 	Address          string          `json:"address"`
 	Location         string          `json:"location"`
-}
-
-type DestinationUpdateDTO struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Image1      string `json:"image1"`
-	Image2      string `json:"image2"`
-	Image3      string `json:"image3"`
-	Image4      string `json:"image4"`
-	Price       int    `json:"price"`
-	Address     string `json:"address"`
-	Location    string `json:"location"`
 }
